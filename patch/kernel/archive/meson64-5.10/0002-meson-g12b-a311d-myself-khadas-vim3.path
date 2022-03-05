@@ -1,0 +1,141 @@
+From 08af212877d903bea2f9f987bbd72baf46e8011b Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Fri, 4 Mar 2022 19:50:42 +0800
+Subject: [PATCH 2/2] 1
+
+---
+ meson-g12b-a311d-khadas-vim3.dts | 119 +++++++++++++++++++++++++++++++
+ 1 file changed, 119 insertions(+)
+
+diff --git a/meson-g12b-a311d-khadas-vim3.dts b/meson-g12b-a311d-khadas-vim3.dts
+index 124a809..6fc0405 100644
+--- a/meson-g12b-a311d-khadas-vim3.dts
++++ b/meson-g12b-a311d-khadas-vim3.dts
+@@ -15,6 +15,125 @@
+ 	compatible = "khadas,vim3", "amlogic,a311d", "amlogic,g12b";
+ };
+
++&audiobus {
++	aml_spdif: spdif {
++		pinctrl-names = "spdif_pins", "spdif_pins_mute";
++		pinctrl-0 = <&spdifout>;
++		pinctrl-1 = <&spdifout_a_mute>;
++	};
++};
++
++&pinctrl_periphs {
++	/delete-node/ spdifout;
++	/delete-node/ spdifout_a_mute;
++};
++
++&pinctrl_aobus {
++	spdifout: spdifout {
++		mux {
++			groups = "spdif_out_ao";
++			function = "spdif_out_ao";
++		};
++	};
++
++	spdifout_a_mute: spdifout_a_mute {
++		mux {
++			groups = "GPIOAO_10";
++			function = "gpio_aobus";
++		};
++	};
++};
++
++&i2c0 {
++	/delete-property/ pinctrl-names;
++	/delete-property/ pinctrl-0;
++	/delete-property/ clock-frequency;
++};
++
++&i2c2 {
++	status = "disabled";
++	/delete-property/ pinctrl-names;
++	/delete-property/ pinctrl-0;
++	/delete-property/ clock-frequency;
++};
++
++&i2c3 {
++	status = "okay";
++	pinctrl-names="default";
++	pinctrl-0=<&i2c3_master_pins2>;
++	clock-frequency = <100000>;
++};
++
++&i2c_AO {
++	status = "okay";
++	pinctrl-names="default";
++	pinctrl-0=<&ao_i2c_master_pins1>;
++	clock-frequency = <400000>;
++
++	gpio_expander: gpio-controller@20 {
++		compatible = "ti,tca6408";
++		reg = <0x20>;
++		gpio-controller;
++		#gpio-cells = <2>;
++		status = "disabled";
++	};
++
++	hym8563: hym8563@51 {
++		compatible = "haoyu,hym8563";
++		reg = <0x51>;
++		#clock-cells = <0>;
++	};
++
++	khadas-mcu {
++		compatible = "khadas-mcu";
++		reg = <0x18>;
++		fan,trig_temp_level0 = <50>;
++		fan,trig_temp_level1 = <60>;
++		fan,trig_temp_level2 = <70>;
++		hwver = "VIM3.V11";
++	};
++};
++
++&pwm_ef {
++	pinctrl-names = "default";
++	pinctrl-0 = <&pwm_f_pins1>;
++};
++
++&usb2_phy_v2 {
++	gpio-vbus-power = "GPIOA_6";
++	gpios = <&gpio GPIOA_6 GPIO_ACTIVE_HIGH>;
++};
++
++&usb3_phy_v2 {
++	/delete-property/ gpio-vbus-power;
++	/delete-property/ gpios;
++	otg = <1>;
++};
++
++&pcie_A {
++	reset-gpio = <&gpio GPIOA_8 GPIO_ACTIVE_HIGH>;
++	status = "okay";
++};
++
++&saradc {
++	status = "okay";
++};
++
++&spicc1 {
++	status = "disabled";
++	pinctrl-names = "default";
++	pinctrl-0 = <&spicc1_pins>;
++	cs-gpios = <&gpio GPIOH_6 GPIO_ACTIVE_HIGH>;
++
++	spidev@0 {
++		status = "disabled";
++		compatible = "linux,spidev";
++		/* spi default max clock 100Mhz */
++		spi-max-frequency = <100000000>;
++		reg = <0>;
++	};
++};
++
+ /*
+  * The VIM3 on-board  MCU can mux the PCIe/USB3.0 shared differential
+  * lines using a FUSB340TMX USB 3.1 SuperSpeed Data Switch between
+--
+2.25.1

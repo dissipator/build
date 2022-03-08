@@ -1,0 +1,31 @@
+From 44d99914cae941da3dc53a31755aa10ce2822cb9 Mon Sep 17 00:00:00 2001
+From: Your Name <you@example.com>
+Date: Mon, 7 Mar 2022 23:22:33 -0500
+Subject: [PATCH] 2
+
+---
+ arch/arm64/boot/dts/amlogic/meson-khadas-vim3.dtsi | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/arch/arm64/boot/dts/amlogic/meson-khadas-vim3.dtsi b/arch/arm64/boot/dts/amlogic/meson-khadas-vim3.dtsi
+index 3cf4ecb..b01019c 100644
+--- a/arch/arm64/boot/dts/amlogic/meson-khadas-vim3.dtsi
++++ b/arch/arm64/boot/dts/amlogic/meson-khadas-vim3.dtsi
+@@ -342,6 +342,7 @@
+                compatible = "khadas,mcu";
+                reg = <0x18>;
+                #cooling-cells = <2>;
++               status = "disable";
+        };
+
+        gpio_expander: gpio-controller@20 {
+@@ -370,6 +371,11 @@
+        reset-gpios = <&gpio GPIOA_8 GPIO_ACTIVE_LOW>;
+ };
+
++
+ &pwm_ef {
+        status = "okay";
+        pinctrl-0 = <&pwm_e_pins>;
+--
+2.25.1

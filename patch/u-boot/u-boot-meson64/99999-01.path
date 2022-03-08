@@ -4,13 +4,13 @@ Date: Mon, 7 Mar 2022 23:22:33 -0500
 Subject: [PATCH] 2
 
 ---
- arch/arm64/boot/dts/amlogic/meson-khadas-vim3.dtsi | 6 ++++++
+ arch/arm/boot/dts/meson-khadas-vim3.dtsi | 6 ++++++
  1 file changed, 6 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/amlogic/meson-khadas-vim3.dtsi b/arch/arm64/boot/dts/amlogic/meson-khadas-vim3.dtsi
+diff --git a/arch/arm/boot/dts/meson-khadas-vim3.dtsi b/arch/arm/boot/dts/meson-khadas-vim3.dtsi
 index 3cf4ecb..b01019c 100644
---- a/arch/arm64/boot/dts/amlogic/meson-khadas-vim3.dtsi
-+++ b/arch/arm64/boot/dts/amlogic/meson-khadas-vim3.dtsi
+--- a/arch/arm/boot/dts/meson-khadas-vim3.dtsi
++++ b/arch/arm/boot/dts/meson-khadas-vim3.dtsi
 @@ -342,6 +342,7 @@
                 compatible = "khadas,mcu";
                 reg = <0x18>;
@@ -23,10 +23,6 @@ index 3cf4ecb..b01019c 100644
         reset-gpios = <&gpio GPIOA_8 GPIO_ACTIVE_LOW>;
  };
 
-+&pcie_A {
-+       reset-gpio = <&gpio GPIOA_8 GPIO_ACTIVE_HIGH>;
-+       status = "okay";
-+};
 +
  &pwm_ef {
         status = "okay";
